@@ -1,13 +1,12 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions"
 import * as db from "../lib/db-connector";
-import * as userDao from "../lib/dao/userDao";
+import * as statusDao from "../lib/dao/statusDao";
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     let response = null;
     await db.init();
-    response = {
-        documentResponse: await userDao.addUser(req),
+    context.res = {
+        body: {data : await statusDao.fetchAllStatus()},
       };
-    context.res = response;
 
 };
 

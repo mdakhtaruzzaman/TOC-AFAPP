@@ -1,30 +1,9 @@
-import { Schema, model, connect } from "mongoose";
-
-let db=null;
-
-const CategorySchema = new Schema(
-  { categoryName: String },
-  { timestamps: true }
-);
-const CategoryModel = model("Category", CategorySchema, "tocdb");
-
+import { Schema, model, connect, Types } from "mongoose";
+import { StatusSchema } from "./model/status";
+import { userSchema } from "./model/user";
+let db = null;
 export const init = async () => {
-  if(!db) {
+  if (!db) {
     db = await connect(process.env["CosmosDbConnectionString"]);
   }
-};
-export const addItem = async (doc) => {
-  const modelToInsert = new CategoryModel();
-  modelToInsert["name"] = doc.name;
-
-  return await modelToInsert.save();
-};
-export const findItemById = async (id) => {
-  return await CategoryModel.findById(id);
-};
-export const findItems = async (query = {}) => {
-  return await CategoryModel.find({});
-};
-export const deleteItemById = async (id) => {
-  return await CategoryModel.findByIdAndDelete(id);
 };
